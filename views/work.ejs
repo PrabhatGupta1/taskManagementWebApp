@@ -1,0 +1,41 @@
+<%- include("partials/header.ejs") %>
+        <div class="container">
+            <div class="current-date">
+                <h2>Work List</h2>
+            </div>
+            <div class="content">
+                <div class="todoTask">
+                    <% if(locals.tasks) {%>
+                        <% for(var i = 0;i<tasks.length;i++) { %>
+                            <% if(tasks[i].is_completed) {%>
+                                <div class="task-item cross">
+                                    <div><input class="complete" type="checkbox" name="<%= tasks[i].id %>" checked></div>
+                                    <div class="task"><p><%= tasks[i].task %></p></div>
+                                </div>
+                            <% } else {%>
+                                <div class="task-item">
+                                    <div><input class="complete" type="checkbox" name="<%= tasks[i].id %>"></div>
+                                    <div class="task"><p><%= tasks[i].task %></p></div>
+                                </div>
+                            <% } %> 
+                        <% } %>
+                    <% } else { %>
+                        <h2>Tasks will show here</h2>
+                    <% } %>
+                    <form action="/work" method="POST">
+                        <div class="task-input">
+                            <div class="task-field"><input type="text" name="task" id="task" placeholder="New task..." required></div>
+                            <div class="add"><input type="submit" value="+"></div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+            <div class="remove-list">
+                <form action="/removeWorkList" method="post">
+                    <button type="submit">Remove List</button>
+                </form>
+            </div>
+        </div>
+<%- include("partials/footer.ejs") %>
+    

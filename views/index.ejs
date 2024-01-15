@@ -1,0 +1,55 @@
+<%- include("partials/header.ejs") %>
+        <div class="container">
+            <div class="current-date">
+                <% if(locals.currentDay) {%>
+                <h2><a href="/prev"><svg class="prev" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-left-square-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm10.5 10V4a.5.5 0 0 0-.832-.374l-4.5 4a.5.5 0 0 0 0 .748l4.5 4A.5.5 0 0 0 10.5 12"/>
+                  </svg></a>
+                  <%= currentDay %>
+                  <a href="/next"><svg class="next" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm5.5 10a.5.5 0 0 0 .832.374l4.5-4a.5.5 0 0 0 0-.748l-4.5-4A.5.5 0 0 0 5.5 4z"/>
+                  </svg></a>
+                </h2>
+                <% } else {} %>
+            </div>
+            <div class="content">
+                <div class="todoTask">
+                    <% if(locals.tasks) {%>
+                        <form method="post">
+                        <% for(var i = 0;i<tasks.length;i++) { %>
+                            <% if(tasks[i].is_completed) {%>
+                                <div class="task-item cross">
+                                    <div><input class="complete" type="checkbox" name="<%= tasks[i].id %>" checked></div>
+                                    <div class="task"><p><%= tasks[i].task %></p></div>
+                                </div>
+                            <% } else {%>
+                                <div class="task-item">
+                                    <div><input class="complete" type="checkbox" name="<%= tasks[i].id %>"></div>
+                                    <div class="task"><p><%= tasks[i].task %></p></div>
+                                </div>
+                            <% } %> 
+                        <% } %>
+                        </form>
+                    <% } else { %>
+                        <h2>Tasks will show here</h2>
+                    <% } %>
+                    <% if(!isPast) {%>
+                    <form action="/create-task" method="POST">
+                        <div class="task-input">
+                            <div class="task-field"><input type="text" name="task" id="task" placeholder="New task..." required></div>
+                            <div class="add"><input type="submit" value="+"></div>
+                        </div>
+                    </form>
+                    <% } else if(isPast && tasks.length === 0) {%>
+                        <div class="task-field"><input type="text" name="task" id="task" placeholder="No task added on this date ..." disabled></div>
+                    <% } %>
+                </div>
+            </div>
+            <div class="remove-list">
+                <form action="/removeTodayList" method="post">
+                    <button type="submit">Remove List</button>
+                </form>
+            </div>
+        </div>
+<%- include("partials/footer.ejs") %>
+    
